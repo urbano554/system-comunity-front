@@ -32,14 +32,6 @@ const links = [
     to: '/create-gas',
     text: 'Registrar gas',
   },
-  {
-    to: '/migration-letter',
-    text: 'Carta migratoria',
-  },
-  {
-    to: '/residence-letter',
-    text: 'Carta residencia',
-  },
 ]
 
 export const Links = () => {
