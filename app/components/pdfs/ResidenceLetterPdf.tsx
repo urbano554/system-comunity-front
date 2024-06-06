@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
-import TableHeader from "./components/TableHeader";
-import TableRow from "./components/TableRow";
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -23,9 +20,9 @@ const styles = StyleSheet.create({
 //eslint-disable-next-line
 //@ts-ignore
 // eslint-disable-next-line react/prop-types
-const MigrationLetterPdf = ({ data, list_family = [] }) => {
+const ResidenceLetterPdf = ({ data }) => {
   return (
-    <Document>
+    <Document style={{ height: 100 }}>
       <Page size="A4" style={styles.page}>
         <View
           style={{
@@ -53,7 +50,9 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
             <Text>MUNICIPIO CARIRUBANA ESTADO FALCON</Text>
           </View>
 
-          <Text style={{ fontWeight: "bold" }}>CARTA MIGRATORIA</Text>
+          <Text style={{ fontWeight: "bold", fontSize: "14px" }}>
+            CARTA DE RESIDENCIA
+          </Text>
 
           <View
             style={{
@@ -65,58 +64,27 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
             }}
           >
             <Text style={{ textAlign: "justify", fontSize: "12px" }}>
-              Por medio de la presente, nosotros los abajo firmantes civilmente
-              hábiles, integrantes, activos y representantes del consejo comunal{" "}
-              <Text style={{ fontWeight: "bold" }}>
-                NUESTRA SEÑORA DE LA CHIQUINQUIRA
-              </Text>{" "}
-              ubicados en la Puerta Maraven, Punto Fijo, Estado Falcón, hacemos
-              constatar que el (la) ciudadano(a){" "}
+              Quienes suscribimos voceros, del Consejo Comunal NUESTRA SEÑORA DE
+              LA CHIQUINQUIRÁ, sector Puerta Maraven, Parroquia Punta Cardón,
+              Estado Falcón.
+            </Text>
+
+            <Text
+              style={{
+                marginTop: "10px",
+                textAlign: "justify",
+                fontSize: "12px",
+              }}
+            >
+              Hacemos Constar que el Ciudadano (a)
               <Text style={{ textDecoration: "underline" }}>
                 {data.firstname} {data.lastname}
               </Text>
-              , Venezolano, mayor de edad, portador de la cédula de identidad:{" "}
-              <Text style={{ textDecoration: "underline" }}>{data.ci}</Text>
-            </Text>
-
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginTop: 24,
-                borderWidth: 1,
-                borderColor: "#bff0fd",
-              }}
-            >
-              <TableHeader />
-              <TableRow items={list_family} />
-            </View>
-
-            <Text style={{ textAlign: "justify", fontSize: "12px" }}>
-              Residían en esta comunidad en la{" "}
+              , mayor de edad, portador(a) de la cédula de identidad N°{" "}
+              <Text style={{ textDecoration: "underline" }}>{data.ci}</Text>, de
+              estado civil ________________________, residenciado(a) en{" "}
               <Text style={{ textDecoration: "underline" }}>
                 {data.address}
-              </Text>
-              , motivado a ello solicitan el presente documento por trasladarse
-              hacia ______________________________________________,en la fecha:
-              ___________ por tanto, declaramos que apartir de la presente
-              fecha, deja de ser{" "}
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                }}
-              >
-                RESIDENTES Y HABITANTES DE ESTA COMUNIDAD
-              </Text>
-              , razón por la cual será excluidos de nuestro censo, por ende, ya{" "}
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                }}
-              >
-                NO RECIBIRAN BENEFICIOS DE NINGUNA INDOLE.
               </Text>
             </Text>
 
@@ -128,8 +96,8 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
               }}
             >
               Constancia que se expide a solicitud de parte interesada, en la
-              Puerta Maraven a los _______________ días del mes de
-              ______________ de 2024.
+              Ciudad de Punto fijo a los _______________ días del mes de
+              ______________ del año dos mil _____________
             </Text>
 
             <View
@@ -140,7 +108,7 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
                 alignItems: "center",
                 fontSize: "12px",
                 gap: 80,
-                marginTop: 100,
+                marginTop: 200,
               }}
             >
               <View
@@ -164,6 +132,21 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
                 <Text>Vocero(a) de Contraloria</Text>
               </View>
             </View>
+
+            <View>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  fontSize: "10px",
+                  marginTop: "20px",
+                }}
+              >
+                SELLO
+              </Text>
+            </View>
           </View>
         </View>
       </Page>
@@ -171,4 +154,4 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
   );
 };
 
-export default MigrationLetterPdf;
+export default ResidenceLetterPdf;

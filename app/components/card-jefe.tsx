@@ -36,8 +36,12 @@ export default function CardJefe({
     navigate(`/get-miembros?ciJefe=${data.ci}`);
   };
 
-  const handleGoToSinglePdf = () => {
-    navigate(`/single-pdf?id=${data.id}&ciJefe=${data.ci}`);
+  const handleGoToDownloadMigrationLetter = () => {
+    navigate(`/migration-letter-pdf?id=${data.id}&ciJefe=${data.ci}`);
+  };
+
+  const handleGoToDownloadResidenceLetter = () => {
+    navigate(`/residence-letter-pdf?id=${data.id}`);
   };
 
   return (
@@ -160,9 +164,17 @@ export default function CardJefe({
           title="Carta Migratoria"
           color="primary"
           size="icon"
-          onClick={handleGoToSinglePdf}
+          onClick={handleGoToDownloadMigrationLetter}
         >
           PDF 1
+        </Button>
+        <Button
+          title="Carta de residencia"
+          color="primary"
+          size="icon"
+          onClick={handleGoToDownloadResidenceLetter}
+        >
+          PDF 2
         </Button>
       </div>
     </article>
