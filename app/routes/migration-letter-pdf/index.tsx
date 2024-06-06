@@ -5,10 +5,9 @@ import { request } from "~/services/request";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import MigrationLetterPdf from "~/components/pdfs/MigrationLetterPdf";
 import Button from "~/components/button";
-import {
-  GET_MIEMBROS,
-  GetMiembros,
-} from "~/services/miembro";
+import { GET_MIEMBROS, GetMiembros } from "~/services/miembro";
+import Container from "~/components/container";
+import NavAdmin from "~/components/nav-admin";
 
 const initialvalues = {
   firstname: "",
@@ -26,11 +25,10 @@ const initialvalues = {
   age: "",
 };
 
-const SinglePdf = () => {
+const MigrationLetter = () => {
   const [values, setValues] = useState(initialvalues);
   const [listFamily, setlistFamily] = useState(null);
   const [searchParams] = useSearchParams();
-  console.log("listFamily", listFamily);
 
   useEffect(() => {
     const getData = async () => {
@@ -49,7 +47,7 @@ const SinglePdf = () => {
       const [, data] = await request<GetMiembros>(GET_MIEMBROS, {
         ciJefe: searchParams.get("ciJefe") ?? "",
       });
-      console.log('data getMiembros', data)
+      console.log("data getMiembros", data);
       //eslint-disable-next-line
       //@ts-ignore
       setlistFamily(data.data.getMiembros);
@@ -58,26 +56,31 @@ const SinglePdf = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <PDFDownloadLink
-        document={
-          <MigrationLetterPdf data={values} list_family={listFamily ?? []} />
-        }
-        fileName="carta_migratoria.pdf"
+    <Container>
+      <NavAdmin />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
       >
-        <Button color="primary" size="lg">
-          DESCARGAR PDF
-        </Button>
-      </PDFDownloadLink>
-    </div>
+        <PDFDownloadLink
+          document={
+            //eslint-disable-next-line
+            //@ts-ignore
+            <MigrationLetterPdf data={values} list_family={listFamily ?? []} />
+          }
+          fileName="carta_migratoria.pdf"
+        >
+          <Button color="primary" size="lg">
+            DESCARGAR PDF
+          </Button>
+        </PDFDownloadLink>
+      </div>
+    </Container>
   );
 };
 
-export default SinglePdf;
+export default MigrationLetter;

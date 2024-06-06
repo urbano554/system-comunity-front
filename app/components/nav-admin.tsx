@@ -26,7 +26,7 @@ const links = [
   },
   {
     to: '/get-gas',
-    text: 'Ver sensos de gas',
+    text: 'Ver censos de gas',
   },
   {
     to: '/create-gas',
