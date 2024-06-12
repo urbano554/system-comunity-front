@@ -84,7 +84,7 @@ const ResidenceLetterPdf = ({ data }) => {
               <Text style={{ textDecoration: "underline" }}>{data.ci}</Text>, de
               estado civil ________________________, residenciado(a) en{" "}
               <Text style={{ textDecoration: "underline" }}>
-                {data.address}
+                {data.address ?? "_________________________"}
               </Text>
             </Text>
 

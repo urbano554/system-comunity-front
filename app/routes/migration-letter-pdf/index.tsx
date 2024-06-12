@@ -5,7 +5,12 @@ import { request } from "~/services/request";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import MigrationLetterPdf from "~/components/pdfs/MigrationLetterPdf";
 import Button from "~/components/button";
-import { GET_MIEMBROS, GetMiembros } from "~/services/miembro";
+import {
+  GET_MIEMBRO,
+  GET_MIEMBROS,
+  GetMiembro,
+  GetMiembros,
+} from "~/services/miembro";
 import Container from "~/components/container";
 import NavAdmin from "~/components/nav-admin";
 
@@ -25,16 +30,36 @@ const initialvalues = {
   age: "",
 };
 
+const singleMiembroInitialvalues = {
+  firstname: "",
+  lastname: "",
+  phone: "",
+  age: "",
+  dateNacimiento: "",
+  ciJefeFamily: "",
+  discapacity: "",
+  ci: "",
+  sexo: "",
+};
+
 const MigrationLetter = () => {
   const [values, setValues] = useState(initialvalues);
   const [listFamily, setlistFamily] = useState(null);
+  const [singleMiembroData, setSingleMiembro] = useState(
+    singleMiembroInitialvalues
+  );
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const getData = async () => {
-      if (searchParams.get("id") === null) return;
+      if (searchParams.get("idJefe") === null) {
+        //eslint-disable-next-line
+        //@ts-ignore
+        setValues(null);
+        return;
+      }
       const [, data] = await request<GetJefe>(GET_JEFE, {
-        id: searchParams.get("id") ?? "",
+        id: searchParams.get("idJefe") ?? "",
       });
       if (data?.data.getJefe) {
         const { ...input } = data.data.getJefe;
@@ -55,6 +80,22 @@ const MigrationLetter = () => {
     getMiembrosJefe();
   }, []);
 
+  useEffect(() => {
+    const getData = async () => {
+      if (searchParams.get("idMiembro") === null) return;
+      const [, data] = await request<GetMiembro>(GET_MIEMBRO, {
+        id: searchParams.get("idMiembro") ?? "",
+      });
+      if (data?.data.getMiembro) {
+        const { ...input } = data.data.getMiembro;
+        setSingleMiembro({
+          ...input,
+        });
+      }
+    };
+    getData();
+  }, []);
+
   return (
     <Container>
       <NavAdmin />
@@ -70,7 +111,10 @@ const MigrationLetter = () => {
           document={
             //eslint-disable-next-line
             //@ts-ignore
-            <MigrationLetterPdf data={values} list_family={listFamily ?? []} />
+            <MigrationLetterPdf
+              data={values === null ? singleMiembroData ?? [] : values ?? []}
+              list_family={values === null ? null : listFamily}
+            />
           }
           fileName="carta_migratoria.pdf"
         >

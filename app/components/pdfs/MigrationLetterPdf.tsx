@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 //eslint-disable-next-line
 //@ts-ignore
 // eslint-disable-next-line react/prop-types
-const MigrationLetterPdf = ({ data, list_family = [] }) => {
+const MigrationLetterPdf = ({ data, list_family = null }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -79,23 +79,25 @@ const MigrationLetterPdf = ({ data, list_family = [] }) => {
               <Text style={{ textDecoration: "underline" }}>{data.ci}</Text>
             </Text>
 
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginTop: 24,
-                borderWidth: 1,
-                borderColor: "#bff0fd",
-              }}
-            >
-              <TableHeader />
-              <TableRow items={list_family} />
-            </View>
+            {list_family && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  marginTop: 24,
+                  borderWidth: 1,
+                  borderColor: "#bff0fd",
+                }}
+              >
+                <TableHeader />
+                <TableRow items={list_family ?? []} />
+              </View>
+            )}
 
             <Text style={{ textAlign: "justify", fontSize: "12px" }}>
               Residían en esta comunidad en la{" "}
               <Text style={{ textDecoration: "underline" }}>
-                {data.address}
+                {data.address ?? '______________________'}
               </Text>
               , motivado a ello solicitan el presente documento por trasladarse
               hacia ______________________________________________,en la fecha:
