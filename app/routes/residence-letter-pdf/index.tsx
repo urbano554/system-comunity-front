@@ -8,6 +8,7 @@ import { request } from "~/services/request";
 import { GET_JEFE, GetJefe } from "~/services/jefe";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResidenceLetterPdf from "~/components/pdfs/ResidenceLetterPdf";
+import { GET_MIEMBRO, GetMiembro } from "~/services/miembro";
 
 const initialvalues = {
   firstname: "",
@@ -25,19 +26,55 @@ const initialvalues = {
   age: "",
 };
 
+const singleMiembroInitialvalues = {
+  firstname: "",
+  lastname: "",
+  phone: "",
+  age: "",
+  dateNacimiento: "",
+  ciJefeFamily: "",
+  discapacity: "",
+  ci: "",
+  sexo: "",
+};
+
 const ResidenceLetter = () => {
   const [values, setValues] = useState(initialvalues);
+  const [singleMiembroData, setSingleMiembro] = useState(
+    singleMiembroInitialvalues
+  );
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const getData = async () => {
-      if (searchParams.get("id") === null) return;
+      if (searchParams.get("idJefe") === null) {
+        //eslint-disable-next-line
+        //@ts-ignore
+        setValues(null);
+        return;
+      }
       const [, data] = await request<GetJefe>(GET_JEFE, {
-        id: searchParams.get("id") ?? "",
+        id: searchParams.get("idJefe") ?? "",
       });
       if (data?.data.getJefe) {
         const { ...input } = data.data.getJefe;
         setValues({ ...input });
+      }
+    };
+    getData();
+  }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (searchParams.get("idMiembro") === null) return;
+      const [, data] = await request<GetMiembro>(GET_MIEMBRO, {
+        id: searchParams.get("idMiembro") ?? "",
+      });
+      if (data?.data.getMiembro) {
+        const { ...input } = data.data.getMiembro;
+        setSingleMiembro({
+          ...input,
+        });
       }
     };
     getData();
@@ -58,7 +95,7 @@ const ResidenceLetter = () => {
           document={
             //eslint-disable-next-line
             //@ts-ignore
-            <ResidenceLetterPdf data={values} />
+            <ResidenceLetterPdf data={values === null ? singleMiembroData ?? [] : values ?? []} />
           }
           fileName="carta_de_residencia.pdf"
         >

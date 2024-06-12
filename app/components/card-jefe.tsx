@@ -37,11 +37,11 @@ export default function CardJefe({
   };
 
   const handleGoToDownloadMigrationLetter = () => {
-    navigate(`/migration-letter-pdf?id=${data.id}&ciJefe=${data.ci}`);
+    navigate(`/migration-letter-pdf?idJefe=${data.id}&ciJefe=${data.ci}`);
   };
 
   const handleGoToDownloadResidenceLetter = () => {
-    navigate(`/residence-letter-pdf?id=${data.id}`);
+    navigate(`/residence-letter-pdf?idJefe=${data.id}`);
   };
 
   return (
